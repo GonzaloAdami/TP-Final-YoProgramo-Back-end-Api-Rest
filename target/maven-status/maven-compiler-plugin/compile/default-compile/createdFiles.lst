@@ -1,0 +1,6 @@
+com\api\rest\api\rest\models\UsuarioModel.class
+com\api\rest\api\rest\models\table.class
+com\api\rest\api\rest\repositories\UsuarioRepository.class
+com\api\rest\api\rest\ServletInitializer.class
+com\api\rest\api\rest\Application.class
+com\api\rest\api\rest\services\UsuarioService.class

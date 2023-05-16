@@ -19,6 +19,7 @@ public class UsuarioModel {
     private String nombre;
     private String email;
     private Integer prioridad;
+    private String biografia;
 
     public void setPrioridad(Integer prioridad){
         this.prioridad = prioridad;
@@ -50,6 +51,15 @@ public class UsuarioModel {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    
+    public String getBiografia() {
+        return biografia;
+    }
+
+    public void setBiografia(String biografia) {
+        this.email = biografia;
     }
     
 }
