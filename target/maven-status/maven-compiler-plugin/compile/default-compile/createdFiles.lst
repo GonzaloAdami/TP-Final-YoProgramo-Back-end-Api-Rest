@@ -1,4 +1,5 @@
 com\api\rest\api\rest\models\UsuarioModel.class
+WebConfig.class
 com\api\rest\api\rest\models\table.class
 com\api\rest\api\rest\repositories\UsuarioRepository.class
 com\api\rest\api\rest\ServletInitializer.class
