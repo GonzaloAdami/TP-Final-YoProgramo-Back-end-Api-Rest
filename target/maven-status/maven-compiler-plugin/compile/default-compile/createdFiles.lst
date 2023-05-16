@@ -1,7 +1,6 @@
-com\api\rest\api\rest\models\UsuarioModel.class
-WebConfig.class
-com\api\rest\api\rest\models\table.class
-com\api\rest\api\rest\repositories\UsuarioRepository.class
+com\example\accessingdatamysql\AccessingDataMysqlApplication.class
+com\example\accessingdatamysql\MainController.class
 com\api\rest\api\rest\ServletInitializer.class
+com\example\accessingdatamysql\User.class
+com\example\accessingdatamysql\UserRepository.class
 com\api\rest\api\rest\Application.class
-com\api\rest\api\rest\services\UsuarioService.class
