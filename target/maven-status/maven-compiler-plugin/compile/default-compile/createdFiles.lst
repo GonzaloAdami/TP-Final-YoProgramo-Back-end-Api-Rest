@@ -4,3 +4,4 @@ com\api\rest\api\rest\ServletInitializer.class
 com\example\accessingdatamysql\User.class
 com\example\accessingdatamysql\UserRepository.class
 com\api\rest\api\rest\Application.class
+com\api\rest\api\rest\WebConfig.class
