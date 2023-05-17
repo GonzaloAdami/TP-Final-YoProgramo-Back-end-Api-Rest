@@ -9,7 +9,7 @@ public class CorsConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("https://yoprogramo-frontend-2d963.firebaseapp.com")
+                .allowedOrigins("https://yoprogramo-frontend-2d963.web.app", "https://yoprogramo-frontend-2d963.firebaseapp.com")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*");
     }
