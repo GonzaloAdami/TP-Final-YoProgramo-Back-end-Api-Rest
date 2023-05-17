@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Person;
 import com.example.demo.repository.PersonRepository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping("/api")
@@ -28,6 +29,8 @@ public class PersonController {
 		return repository.findAll();
 	}
 	
+        
+        @CrossOrigin(origins = "https://yoprogramo-frontend-2d963.firebaseapp.com/")
 	@GetMapping("/person/{name}")
 	public List<Person> findByName(@PathVariable("name") String name) {
 		return repository.findByName(name);
