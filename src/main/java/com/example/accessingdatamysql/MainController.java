@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path="/demo")
 @CrossOrigin(origins = {
-  "https://yoprogramo-frontend-2d963.web.app",
-  "https://yoprogramo-frontend-2d963.firebaseapp.com"
+  "yoprogramo-frontend-2d963.firebaseapp.com",
+  "yoprogramo-frontend-2d963.firebaseapp.com"
 })
 public class MainController {
 
