@@ -1,5 +1,6 @@
 com\example\accessingdatamysql\AccessingDataMysqlApplication.class
 com\example\accessingdatamysql\MainController.class
+portafolio\WebConfig.class
 com\api\rest\api\rest\ServletInitializer.class
 com\example\accessingdatamysql\User.class
 com\example\accessingdatamysql\UserRepository.class
