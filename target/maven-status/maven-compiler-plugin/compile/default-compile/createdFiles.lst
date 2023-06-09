@@ -1,4 +1,4 @@
 com\example\demo\DemoApplication.class
 com\example\demo\model\Person.class
-com\example\demo\Controlller\PersonController.class
+com\example\demo\Controller\PersonController.class
 com\example\demo\repository\PersonRepository.class

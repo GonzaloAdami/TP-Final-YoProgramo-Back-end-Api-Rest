@@ -1,4 +1,4 @@
-package com.example.demo.Controlller;
+package com.example.demo.Controller;
 
 import java.util.List;
 
@@ -18,34 +18,35 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping("/api")
+
 public class PersonController {
 	
 	@Autowired
 	private PersonRepository repository;
 	
-	
+	@CrossOrigin(origins = {"https://yoprogramo-frontend-2d963.firebaseapp.com/", "http://localhost:4200"})
 	@GetMapping("/persons")
 	public List<Person> allPersons(){
 		return repository.findAll();
 	}
 	
         
-        @CrossOrigin(origins = "https://yoprogramo-frontend-2d963.firebaseapp.com/")
+        @CrossOrigin(origins = {"https://yoprogramo-frontend-2d963.firebaseapp.com/", "http://localhost:4200"})
 	@GetMapping("/person/{name}")
 	public List<Person> findByName(@PathVariable("name") String name) {
 		return repository.findByName(name);
 	}
-	
+	@CrossOrigin(origins = {"https://yoprogramo-frontend-2d963.firebaseapp.com/", "http://localhost:4200"})
 	@PostMapping("/person")
 	public Person createPerson(@RequestBody Person person) {
 		return repository.save(person);
 	}
-	
+	@CrossOrigin(origins = {"https://yoprogramo-frontend-2d963.firebaseapp.com/", "http://localhost:4200"})
 	@PutMapping("/person/{id}")
 	public Person updatePerson(@PathVariable int id ,@RequestBody Person person) {
 		return repository.save(person);
 	}
-	
+	@CrossOrigin(origins = {"https://yoprogramo-frontend-2d963.firebaseapp.com/", "http://localhost:4200"})
 	@DeleteMapping("/person/{id}")
 	public void deletePerson(@PathVariable("id") Long id) {
 		repository.deleteById(id);
