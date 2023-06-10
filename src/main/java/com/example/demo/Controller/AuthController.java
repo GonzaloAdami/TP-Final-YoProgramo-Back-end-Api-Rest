@@ -17,7 +17,7 @@ public class AuthController {
         // Verifica las credenciales y genera un token de acceso si son válidas
 
         // Ejemplo de verificación de credenciales
-        if (loginRequest.getEmail().equals("usuario@example.com") && loginRequest.getPassword().equals("password123")) {
+        if (loginRequest.getEmail().equals("test@gmail.com") && loginRequest.getPassword().equals("test")) {
             // Si la autenticación es exitosa, devuelve un token de acceso en la respuesta
             String token = generateAccessToken(loginRequest.getEmail());
             return ResponseEntity.ok(new AuthResponse(token));
