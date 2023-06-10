@@ -1,4 +1,6 @@
+com\example\demo\controller\AuthController$LoginRequest.class
 com\example\demo\DemoApplication.class
-com\example\demo\model\Person.class
-com\example\demo\Controller\PersonController.class
+com\example\demo\controller\AuthController$AuthResponse.class
+com\example\demo\controller\AuthController.class
 com\example\demo\repository\PersonRepository.class
+com\example\demo\model\Person.class
