@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -7,10 +9,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-@RestController
+ @RestController
+ @CrossOrigin(origins = {"http://localhost:4200", "https://yoprogramo-frontend-2d963.firebaseapp.com"})
 public class AuthController {
-
-    @CrossOrigin(origins = {"http://localhost:4200", "https://yoprogramo-frontend-2d963.firebaseapp.com"})
+    
+   
+   
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         // Realiza la lógica de autenticación aquí
@@ -18,7 +22,7 @@ public class AuthController {
 
         // Ejemplo de verificación de credenciales
         if (loginRequest.getEmail().equals("test@gmail.com") && loginRequest.getPassword().equals("yoprogramo2023")) {
-            // Si la autenticación es exitosa, devuelve un token de acceso en la respuesta
+            // Si la autenticación es exitosa, genera un token de acceso
             String token = generateAccessToken(loginRequest.getEmail());
             return ResponseEntity.ok(new AuthResponse(token));
         } else {
@@ -28,14 +32,13 @@ public class AuthController {
     }
 
     private String generateAccessToken(String email) {
-        // Lógica para generar un token de acceso (por ejemplo, utilizando JWT)
-        // ...
-
-        // Lógica para generar un token de acceso (por ejemplo, utilizando JWT)
-        // ...
-        return "dummy-token";
+        String secretKey = "secretKey";
+        String token = Jwts.builder()
+                .setSubject(email)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+        return token;
     }
-
     static class LoginRequest {
         private String email;
         private String password;
