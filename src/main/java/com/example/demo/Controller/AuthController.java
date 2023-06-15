@@ -9,12 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
- @RestController
- @CrossOrigin(origins = {"http://localhost:4200", "https://yoprogramo-frontend-2d963.firebaseapp.com"})
+@RestController
+@CrossOrigin(origins = {"http://localhost:4200", "https://yoprogramo-frontend-2d963.firebaseapp.com"})
 public class AuthController {
-    
-   
-   
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         // Realiza la lógica de autenticación aquí
@@ -24,7 +22,11 @@ public class AuthController {
         if (loginRequest.getEmail().equals("test@gmail.com") && loginRequest.getPassword().equals("yoprogramo2023")) {
             // Si la autenticación es exitosa, genera un token de acceso
             String token = generateAccessToken(loginRequest.getEmail());
-            return ResponseEntity.ok(new AuthResponse(token));
+
+            String username = obtenerNombreDeUsuario(loginRequest.getEmail());
+
+            AuthResponse response = new AuthResponse(token, username);
+            return ResponseEntity.ok(response);
         } else {
             // Si la autenticación falla, devuelve una respuesta de error
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
@@ -39,6 +41,13 @@ public class AuthController {
                 .compact();
         return token;
     }
+
+    private String obtenerNombreDeUsuario(String email) {
+        // Aquí debes implementar la lógica para obtener el nombre de usuario basado en el correo electrónico
+        // Puede ser una consulta a la base de datos u otra fuente de datos
+        return "Nombre del usuario"; // Reemplaza con la lógica real
+    }
+
     static class LoginRequest {
         private String email;
         private String password;
@@ -62,9 +71,11 @@ public class AuthController {
 
     static class AuthResponse {
         private String token;
+        private String name;
 
-        public AuthResponse(String token) {
+        public AuthResponse(String token, String name) {
             this.token = token;
+            this.name = name;
         }
 
         public String getToken() {
@@ -73,6 +84,14 @@ public class AuthController {
 
         public void setToken(String token) {
             this.token = token;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
         }
     }
 }
