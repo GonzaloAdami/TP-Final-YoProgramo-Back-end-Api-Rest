@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200", "https://yoprogramo-frontend-2d963.firebaseapp.com", "https://yoprogramo-frontend-2d963.firebaseapp.com/login"})
 @RequestMapping("/user")
 public class AuthController {
     private final PersonRepository personRepository;
@@ -19,8 +18,9 @@ public class AuthController {
     public AuthController(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
-
-   @PostMapping("/login")
+    
+    @CrossOrigin(origins = {"http://localhost:4200", "https://yoprogramo-frontend-2d963.firebaseapp.com", "https://yoprogramo-frontend-2d963.firebaseapp.com/login"})
+    @PostMapping("/login")
 public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
     if (loginRequest.getEmail().equals("test@gmail.com") && loginRequest.getPassword().equals("yoprogramo2023")) {
         String token = generateAccessToken(loginRequest.getEmail());
