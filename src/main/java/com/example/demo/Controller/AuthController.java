@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200", "https://yoprogramo-frontend-2d963.firebaseapp.com"})
+@CrossOrigin(origins = {"http://localhost:4200", "https://yoprogramo-frontend-2d963.firebaseapp.com", "https://yoprogramo-frontend-2d963.firebaseapp.com/login"})
 @RequestMapping("/user")
 public class AuthController {
     private final PersonRepository personRepository;
