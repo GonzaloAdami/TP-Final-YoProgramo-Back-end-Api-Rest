@@ -1,38 +1,37 @@
-package com.example.demo.controller;
-
+import com.example.demo.repository.Person;
+import com.example.demo.repository.PersonRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:4200", "https://yoprogramo-frontend-2d963.firebaseapp.com"})
+@RequestMapping("/user")
 public class AuthController {
+    private final PersonRepository personRepository;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        // Realiza la lógica de autenticación aquí
-        // Verifica las credenciales y genera un token de acceso si son válidas
-
-        // Ejemplo de verificación de credenciales
-        if (loginRequest.getEmail().equals("test@gmail.com") && loginRequest.getPassword().equals("yoprogramo2023")) {
-            // Si la autenticación es exitosa, genera un token de acceso
-            String token = generateAccessToken(loginRequest.getEmail());
-
-            String username = obtenerNombreDeUsuario(loginRequest.getEmail());
-
-            AuthResponse response = new AuthResponse(token, username);
-            return ResponseEntity.ok(response);
-        } else {
-            // Si la autenticación falla, devuelve una respuesta de error
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
-        }
+    public AuthController(PersonRepository personRepository) {
+        this.personRepository = personRepository;
     }
 
+   @PostMapping("/login")
+public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+    if (loginRequest.getEmail().equals("test@gmail.com") && loginRequest.getPassword().equals("yoprogramo2023")) {
+        String token = generateAccessToken(loginRequest.getEmail());
+        String username = obtenerNombreDeUsuario(loginRequest.getEmail());
+        AuthResponse response = new AuthResponse(token, username);
+        return ResponseEntity.ok(response);
+    } else {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
+    }
+}
+    
     private String generateAccessToken(String email) {
         String secretKey = "secretKey";
         String token = Jwts.builder()
@@ -42,11 +41,14 @@ public class AuthController {
         return token;
     }
 
-    private String obtenerNombreDeUsuario(String email) {
-        // Aquí debes implementar la lógica para obtener el nombre de usuario basado en el correo electrónico
-        // Puede ser una consulta a la base de datos u otra fuente de datos
-        return "Nombre del usuario"; // Reemplaza con la lógica real
+private String obtenerNombreDeUsuario(String email) {
+    Person person = personRepository.findByEmail(email);
+    if (person != null) {
+        return person.getName();
+    } else {
+        return null; // O maneja el caso en el que no se encuentre el usuario de alguna manera apropiada
     }
+}
 
     static class LoginRequest {
         private String email;
