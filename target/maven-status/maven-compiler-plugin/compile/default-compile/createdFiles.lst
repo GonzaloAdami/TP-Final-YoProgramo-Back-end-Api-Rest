@@ -1,7 +1,7 @@
-AuthController.class
+com\example\demo\controller\AuthController$LoginRequest.class
 com\example\demo\DemoApplication.class
-AuthController$AuthResponse.class
+com\example\demo\controller\AuthController$AuthResponse.class
+com\example\demo\controller\AuthController.class
 com\example\demo\repository\PersonRepository.class
-AuthController$LoginRequest.class
 com\example\demo\repository\Person.class
 com\example\demo\services\AuthService.class
