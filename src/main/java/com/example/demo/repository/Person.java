@@ -16,13 +16,18 @@ public class Person {
     private Long id;
     private String name;
     private String password;
+    private String email;
+    private String biografia;
+    
     
     public Person(){
         
     }
-    public Person (Long id, String name, String password){
+    public Person (Long id, String name, String password, String email, String biografia){
         this.id = id;
         this.name = name;
         this.password = password;
+        this.email = email;
+        this.biografia = biografia;
     }
 }
