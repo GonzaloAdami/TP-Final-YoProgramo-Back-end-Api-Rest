@@ -12,7 +12,7 @@ import java.util.List;
  * @author gonza
  */
 public interface IPersonService {
-    
+    public Person findPersonByEmail(String email);
     public List<Person> verPersonas();
     public void crearPersona (Person pers);
     public void borrarPersona (Long id);
