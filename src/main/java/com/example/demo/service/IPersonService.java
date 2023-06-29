@@ -6,6 +6,7 @@ package com.example.demo.service;
 
 import com.example.demo.repository.Person;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 /**
  *
@@ -27,7 +28,7 @@ public interface IPersonService {
      * @param email
      * @return
      */
-    public String login(String password, String email);
+    public ResponseEntity<String> login(String password, String email);
 
     
     
