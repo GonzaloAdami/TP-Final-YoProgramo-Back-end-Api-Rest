@@ -50,13 +50,13 @@ public class AuthController {
         persoServ.borrarPersona(id);
     }
   @PostMapping("/login")
-public ResponseEntity<ResponseEntity<String>> login(@RequestBody Person pers) {
+public ResponseEntity<String> login(@RequestBody Person pers) {
     String email = pers.getEmail();
     String password = pers.getPassword();
-        ResponseEntity<String> token = persoServ.login(email, password);
+    ResponseEntity<String> token = persoServ.login(email, password);
 
     if (token != null) {
-        return ResponseEntity.ok(token);
+        return token;
     } else {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
