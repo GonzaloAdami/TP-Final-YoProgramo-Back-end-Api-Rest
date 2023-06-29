@@ -6,6 +6,8 @@ import com.example.demo.service.IPersonService;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,11 +49,16 @@ public class AuthController {
     public void borrarPersona (@PathVariable Long id){
         persoServ.borrarPersona(id);
     }
-    @PostMapping("/login")
-    public String login(@RequestBody Person pers) {
-        String email =pers.getEmail();
-        String password = pers.getPassword();
-        return persoServ.login(email, password);
+  @PostMapping("/login")
+public ResponseEntity<ResponseEntity<String>> login(@RequestBody Person pers) {
+    String email = pers.getEmail();
+    String password = pers.getPassword();
+        ResponseEntity<String> token = persoServ.login(email, password);
+
+    if (token != null) {
+        return ResponseEntity.ok(token);
+    } else {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
-  
+}
 }
