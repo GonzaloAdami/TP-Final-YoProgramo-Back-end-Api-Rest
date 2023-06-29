@@ -51,9 +51,8 @@ public class AuthController {
     public String login(@RequestBody Person pers) {
         String email =pers.getEmail();
         String password = pers.getPassword();
-        String token = persoServ.login(email, password);
-        pers.setToken(token);
-        return pers.getToken();
+        return persoServ.login(email, password);
+        
        
     }
   
