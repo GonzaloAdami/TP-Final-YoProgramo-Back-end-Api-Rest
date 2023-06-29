@@ -7,9 +7,13 @@ package com.example.demo.service;
 import com.example.demo.repository.Person;
 import com.example.demo.repository.PersonRepository;
 
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 
 /**
  *
@@ -20,6 +24,9 @@ public class PersonService implements IPersonService{
 
     @Autowired  
     public PersonRepository persoRepo;
+    @PersistenceContext
+    private EntityManager entityManager;
+    
     
     @Override
     public List<Person> verPersonas() {
@@ -42,22 +49,34 @@ public class PersonService implements IPersonService{
 
     @Override
     public Person findPersonByEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return persoRepo.findByEmail(email);
     }
 
-    public String login(String email, String password) {
-    Person person = persoRepo.findByEmail(email);
+    /**
+     *
+     * @param email
+     * @param password
+     * @return
+     */
+    @Override   
+public String login(String email, String password) {
+String query = "SELECT COUNT(*) FROM Person Pers WHERE Pers.email = :email AND Pers.password = :password";
+
+    Query queryObj = entityManager.createQuery(query);
+    queryObj.setParameter("email", email);
+    queryObj.setParameter("password", password);
     
-    if (person != null && person.getPassword().equals(password)) {
-        return "Cuenta verificada, las credenciales son correctas";
-    } else {
-        return "Credenciales incorrectas, no se encuentra una cuenta existente";
-    }
+    boolean result = (Long) queryObj.getSingleResult() > 0;
+
+    return result ? "Credenciales correctas" : "Credenciales incorrectas";
 }
 
     @Override
-    public List<Person> login() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Person findPersonByPassword(String password) {
+      return persoRepo.findPersonByPassword(password);
+        
     }
-    
-}
+    }
+
+
+

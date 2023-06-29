@@ -48,7 +48,10 @@ public class AuthController {
         persoServ.borrarPersona(id);
     }
     @PostMapping("/login")
-    public List<Person> login(@RequestBody Person person) {
-        return persoServ.login();
+    public String login(@RequestBody Person pers) {
+        String email =pers.getEmail();
+        String password = pers.getPassword();
+        return persoServ.login(email, password);
     }
+  
 }

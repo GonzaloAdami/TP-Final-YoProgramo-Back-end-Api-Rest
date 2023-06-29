@@ -13,11 +13,20 @@ import java.util.List;
  */
 public interface IPersonService {
     public Person findPersonByEmail(String email);
+    public Person findPersonByPassword(String password);
     public List<Person> verPersonas();
     public void crearPersona (Person pers);
     public void borrarPersona (Long id);
     public Person buscarPersona (Long id);
 
-    public List<Person> login();
+    /**
+     *
+     * @param password
+     * @param email
+     * @return
+     */
+    public String login(String password, String email);
+
+    
     
 }
