@@ -17,5 +17,7 @@ public interface IPersonService {
     public void crearPersona (Person pers);
     public void borrarPersona (Long id);
     public Person buscarPersona (Long id);
+
+    public List<Person> login();
     
 }

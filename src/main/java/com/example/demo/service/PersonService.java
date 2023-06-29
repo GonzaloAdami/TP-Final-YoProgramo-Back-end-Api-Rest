@@ -6,6 +6,7 @@ package com.example.demo.service;
 
 import com.example.demo.repository.Person;
 import com.example.demo.repository.PersonRepository;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,10 +38,25 @@ public class PersonService implements IPersonService{
     @Override
     public Person buscarPersona(Long id) {
      return persoRepo.findById(id).orElse(null);
-    }
+    } 
 
     @Override
     public Person findPersonByEmail(String email) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public String login(String email, String password) {
+    Person person = persoRepo.findByEmail(email);
+    
+    if (person != null && person.getPassword().equals(password)) {
+        return "Cuenta verificada, las credenciales son correctas";
+    } else {
+        return "Credenciales incorrectas, no se encuentra una cuenta existente";
+    }
+}
+
+    @Override
+    public List<Person> login() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
