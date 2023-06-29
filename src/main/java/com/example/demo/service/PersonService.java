@@ -17,11 +17,8 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
-import java.awt.RenderingHints.Key;
 import java.util.Date;
 import javax.crypto.SecretKey;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 /**
  *
@@ -67,37 +64,40 @@ public class PersonService implements IPersonService{
      * @return
      */
     @Override   
-public ResponseEntity<String> login(String email, String password) {
-    String query = "SELECT COUNT(*) FROM Person Pers WHERE Pers.email = :email AND Pers.password = :password";
+public String login(String email, String password) {
+String query = "SELECT COUNT(*) FROM Person Pers WHERE Pers.email = :email AND Pers.password = :password";
 
     Query queryObj = entityManager.createQuery(query);
     queryObj.setParameter("email", email);
     queryObj.setParameter("password", password);
-
+    
     boolean result = (Long) queryObj.getSingleResult() > 0;
+if (result) {
+            // Generar el token
+            SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+            Date expirationDate = new Date(System.currentTimeMillis() + 86400000); // 24 horas
+            String token = Jwts.builder()
+                    .setSubject(email)
+                    .setExpiration(expirationDate)
+                    .signWith(secretKey)
+                    .compact();
 
-    if (result) {
-        // Generar el token
-        SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-        Date expirationDate = new Date(System.currentTimeMillis() + 86400000); // 24 horas
-        String token = Jwts.builder()
-                .setSubject(email)
-                .setExpiration(expirationDate)
-                .signWith(secretKey)
-                .compact();
-
-        return ResponseEntity.ok(token);
-    } else {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-    }
+            return token;
+        } else {
+            return null;
+        }
+    
 }
-
 
     @Override
     public Person findPersonByPassword(String password) {
       return persoRepo.findPersonByPassword(password);
         
     }
+
+   
+
+ 
     }
 
 

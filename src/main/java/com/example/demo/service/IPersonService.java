@@ -6,7 +6,6 @@ package com.example.demo.service;
 
 import com.example.demo.repository.Person;
 import java.util.List;
-import org.springframework.http.ResponseEntity;
 
 /**
  *
@@ -19,6 +18,8 @@ public interface IPersonService {
     public void crearPersona (Person pers);
     public void borrarPersona (Long id);
     public Person buscarPersona (Long id);
+   
+    
 
     /**
      *
@@ -26,7 +27,7 @@ public interface IPersonService {
      * @param email
      * @return
      */
-    public ResponseEntity<String> login(String password, String email);
+    public String login(String password, String email);
 
     
     

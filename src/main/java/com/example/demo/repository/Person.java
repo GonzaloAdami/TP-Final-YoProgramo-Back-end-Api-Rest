@@ -18,17 +18,19 @@ public class Person {
     private String password;
     private String email;
     private String biografia;
+    private String token;
     
     
     public Person(){
         
     }
-    public Person (Long id, String name, String password, String email, String biografia){
+    public Person (Long id, String name, String password, String email, String biografia, String token){
         this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;
         this.biografia = biografia;
+        this.token = token;
     }
      public String getEmail() {
         return email;
@@ -45,6 +47,8 @@ public class Person {
     public void setPassword(String password) {
         this.password = password;
     }
-   
+   public String getToken(){
+       return token;
+   }
 
 }
