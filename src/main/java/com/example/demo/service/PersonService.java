@@ -6,6 +6,9 @@ package com.example.demo.service;
 
 import com.example.demo.repository.Person;
 import com.example.demo.repository.PersonRepository;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 
 import java.util.List;
@@ -14,6 +17,9 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import java.awt.RenderingHints.Key;
+import java.util.Date;
+import javax.crypto.SecretKey;
 
 /**
  *
@@ -67,8 +73,21 @@ String query = "SELECT COUNT(*) FROM Person Pers WHERE Pers.email = :email AND P
     queryObj.setParameter("password", password);
     
     boolean result = (Long) queryObj.getSingleResult() > 0;
+if (result) {
+            // Generar el token
+            SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+            Date expirationDate = new Date(System.currentTimeMillis() + 86400000); // 24 horas
+            String token = Jwts.builder()
+                    .setSubject(email)
+                    .setExpiration(expirationDate)
+                    .signWith(secretKey)
+                    .compact();
 
-    return result ? "Credenciales correctas" : "Credenciales incorrectas";
+            return token;
+        } else {
+            return null;
+        }
+    
 }
 
     @Override
