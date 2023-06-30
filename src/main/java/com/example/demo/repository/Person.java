@@ -50,5 +50,4 @@ public class Person {
    public String getToken(){
        return token;
    }
-
 }

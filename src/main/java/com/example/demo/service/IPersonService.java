@@ -18,7 +18,9 @@ public interface IPersonService {
     public List<Person> verPersonas();
     public void crearPersona (Person pers);
     public void borrarPersona (Long id);
-    public Person buscarPersona (Long id);
+    public Person FindPersonById (Long id);
+    public Long FindIdBySQL (String email, String password);
+    
    
     
 

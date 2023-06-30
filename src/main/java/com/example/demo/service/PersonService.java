@@ -50,7 +50,7 @@ public class PersonService implements IPersonService{
     }
 
     @Override
-    public Person buscarPersona(Long id) {
+    public Person FindPersonById(Long id) {    
      return persoRepo.findById(id).orElse(null);
     } 
 
@@ -68,12 +68,14 @@ public class PersonService implements IPersonService{
     @Override   
     public ResponseEntity<String> login(String email, String password) {
     String query = "SELECT COUNT(*) FROM Person Pers WHERE Pers.email = :email AND Pers.password = :password";
-
+   
     Query queryObj = entityManager.createQuery(query);
     queryObj.setParameter("email", email);
     queryObj.setParameter("password", password);
-
     boolean result = (Long) queryObj.getSingleResult() > 0;
+    
+  
+    
 
     if (result) {
         // Generar el token
@@ -84,7 +86,7 @@ public class PersonService implements IPersonService{
                 .setExpiration(expirationDate)
                 .signWith(secretKey)
                 .compact();
-
+        
         return ResponseEntity.ok(token);
     } else {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -98,6 +100,22 @@ public class PersonService implements IPersonService{
       return persoRepo.findPersonByPassword(password);
         
     }
+
+    @Override
+public Long FindIdBySQL(String email, String password) {
+    String query = "SELECT Pers.id FROM Person Pers WHERE Pers.email = :email AND Pers.password = :password";
+
+    Query queryObjID = entityManager.createQuery(query);
+    queryObjID.setParameter("email", email);
+    queryObjID.setParameter("password", password);
+
+    List<?> result = queryObjID.getResultList();
+    if (!result.isEmpty()) {
+        return (Long) result.get(0);
+    } else {
+        return null; // No se encontró ningún ID correspondiente al correo y contraseña proporcionados
+    }
+}
 
    
 

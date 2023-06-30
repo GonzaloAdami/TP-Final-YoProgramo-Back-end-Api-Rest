@@ -1,5 +1,6 @@
 com\example\demo\DemoApplication.class
 com\example\demo\controller\AuthController.class
+com\example\demo\LoginResponse\LoginResponse.class
 com\example\demo\repository\PersonRepository.class
 com\example\demo\service\IPersonService.class
 com\example\demo\repository\Person.class
