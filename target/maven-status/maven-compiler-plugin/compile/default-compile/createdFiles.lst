@@ -4,4 +4,5 @@ com\example\demo\LoginResponse\LoginResponse.class
 com\example\demo\repository\PersonRepository.class
 com\example\demo\service\IPersonService.class
 com\example\demo\repository\Person.class
+com\example\demo\JpaConfig\JpaConfig.class
 com\example\demo\service\PersonService.class

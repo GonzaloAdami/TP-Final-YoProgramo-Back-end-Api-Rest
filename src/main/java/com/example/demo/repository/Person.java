@@ -19,18 +19,22 @@ public class Person {
     private String email;
     private String biografia;
     private String token;
+    private byte[] portada;
+    private byte[] perfil;
     
     
     public Person(){
         
     }
-    public Person (Long id, String name, String password, String email, String biografia, String token){
+    public Person (Long id, String name, String password, String email, String biografia, String token, byte[] portada, byte[] perfil){
         this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;
         this.biografia = biografia;
         this.token = token;
+        this.portada = portada;
+        this.perfil = perfil;
     }
      public String getEmail() {
         return email;
@@ -50,4 +54,20 @@ public class Person {
    public String getToken(){
        return token;
    }
+
+    /**
+     *
+     * @return 
+     */
+    public byte[] getPerfilBlob(){
+        return perfil;
+}
+     /**
+     *
+     * @return 
+     */
+    public byte[] getPortadaBlob(){
+        return portada;
+}
+
 }

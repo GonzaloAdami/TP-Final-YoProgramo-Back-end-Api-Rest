@@ -15,13 +15,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.PersistenceException;
 import jakarta.persistence.Query;
+import jakarta.transaction.Transactional;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.crypto.SecretKey;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 /**
  *
  * @author gonza
@@ -102,7 +109,7 @@ public class PersonService implements IPersonService{
     }
 
     @Override
-public Long FindIdBySQL(String email, String password) {
+    public Long FindIdBySQL(String email, String password) {
     String query = "SELECT Pers.id FROM Person Pers WHERE Pers.email = :email AND Pers.password = :password";
 
     Query queryObjID = entityManager.createQuery(query);
@@ -117,10 +124,77 @@ public Long FindIdBySQL(String email, String password) {
     }
 }
 
-   
+      
+    @Override
+    @Modifying
+    @Transactional
+   public int uploadPhotoProfile(Long id, byte[] perfil) {
+    String query = "UPDATE Person SET perfil = :photo WHERE id = :personId";
+    Query queryObjPhoto = entityManager.createQuery(query);
+    queryObjPhoto.setParameter("photo", perfil);
+    queryObjPhoto.setParameter("personId", id);
+    
+    int updatedCount = queryObjPhoto.executeUpdate();
+        return updatedCount;
+    
 
- 
+   }
+    /**
+     *
+     * @param id
+     * @param portada
+     * @return
+     */
+    @Override
+    @Modifying
+    @Transactional
+   public int uploadNewPhotoBanner(Long id, byte[] portada) {
+    String query = "UPDATE Person SET portada = :photo WHERE id = :personId";
+    Query queryObjPhoto = entityManager.createQuery(query);
+    queryObjPhoto.setParameter("photo", portada);
+    queryObjPhoto.setParameter("personId", id);
+    
+    int updatedCount = queryObjPhoto.executeUpdate();
+        return updatedCount;
+    
+
+   }
+ @Override
+public byte[] FindIdBySQLProfileBLOB(Long id) {
+    String query = "SELECT perfil FROM Person WHERE id = :personId";
+
+    Query queryObjID = entityManager.createQuery(query);
+    queryObjID.setParameter("personId", id);
+
+    byte[] blobData = null;
+    try {
+        Object result = queryObjID.getSingleResult();
+        if (result instanceof byte[] bs) {
+            blobData = bs;
+        } else if (result instanceof Blob blob) {
+            try {
+                int blobLength = (int) blob.length();
+                blobData = blob.getBytes(1, blobLength);
+            } catch (SQLException ex) {
+                // Manejar la excepción de SQLException específica
+            } finally {
+                try {
+                    blob.free();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PersonService.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    } catch (NoResultException e) {
+        // Manejo de errores cuando no se encuentra ningún resultado
+    } catch (PersistenceException e) {
+        // Manejo de errores de persistencia
     }
+
+    return blobData;
+}
+}
+    
 
 
 

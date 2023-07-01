@@ -4,16 +4,11 @@ package com.example.demo.controller;
 import com.example.demo.LoginResponse.LoginResponse;
 import com.example.demo.repository.Person;
 import com.example.demo.service.IPersonService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 
 import java.util.List;
-import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -23,9 +18,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @CrossOrigin(origins = {
@@ -62,6 +59,22 @@ public class AuthController {
     public void borrarPersona (@PathVariable Long id){
         persoServ.borrarPersona(id);
     }
+    @PutMapping("/upload/banner/{id}")
+    public int uploadBanner(@PathVariable Long id, @RequestBody byte[] portada) {
+    return persoServ.uploadNewPhotoBanner(id, portada);
+        
+        
+    }
+
+
+
+    @PutMapping("/upload/profile/{id}")
+    @org.springframework.data.jpa.repository.Query("UPDATE Person SET perfil = :photo WHERE id = :personId")
+    public int uploadProfile(@PathVariable Long id,@RequestBody byte[] perfil) {
+           return persoServ.uploadPhotoProfile(id, perfil);
+        
+
+}
 
     /**
      *
@@ -83,4 +96,8 @@ public ResponseEntity<LoginResponse> login(@RequestBody Person pers) {
     }
 }
    
+@GetMapping("/see/PhotoProfile/{id}")
+public byte[] getProfileBlob(@PathVariable Long id){
+    return persoServ.FindIdBySQLProfileBLOB(id);
+}
 }
