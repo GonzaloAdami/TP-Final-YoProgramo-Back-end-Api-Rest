@@ -135,10 +135,9 @@ public class PersonService implements IPersonService{
     queryObjPhoto.setParameter("personId", id);
     
     int updatedCount = queryObjPhoto.executeUpdate();
-        return updatedCount;
-    
+    return updatedCount;
+}
 
-   }
     /**
      *
      * @param id

@@ -4,12 +4,16 @@ package com.example.demo.controller;
 import com.example.demo.LoginResponse.LoginResponse;
 import com.example.demo.repository.Person;
 import com.example.demo.service.IPersonService;
+import java.sql.Blob;
+import java.sql.SQLException;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -68,13 +72,18 @@ public class AuthController {
 
 
 
-    @PutMapping("/upload/profile/{id}")
-    @org.springframework.data.jpa.repository.Query("UPDATE Person SET perfil = :photo WHERE id = :personId")
-    public int uploadProfile(@PathVariable Long id,@RequestBody byte[] perfil) {
-           return persoServ.uploadPhotoProfile(id, perfil);
-        
-
+@PutMapping("/upload/profile/{id}")
+public ResponseEntity<String> uploadProfile(@PathVariable Long id, @RequestBody byte[] perfil) {
+    int updatedCount = persoServ.uploadPhotoProfile(id, perfil);
+    if (updatedCount > 0) {
+        return ResponseEntity.ok("Perfil actualizado correctamente");
+    } else {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró la persona con el ID especificado");
+    }
 }
+
+
+
 
     /**
      *
@@ -97,7 +106,37 @@ public ResponseEntity<LoginResponse> login(@RequestBody Person pers) {
 }
    
 @GetMapping("/see/PhotoProfile/{id}")
-public byte[] getProfileBlob(@PathVariable Long id){
-    return persoServ.FindIdBySQLProfileBLOB(id);
+public ResponseEntity<byte[]> getProfileBlob(@PathVariable Long id) {
+    byte[] profileData = persoServ.FindIdBySQLProfileBLOB(id);
+    if (profileData != null) {
+        try {
+            Blob blob = new javax.sql.rowset.serial.SerialBlob(profileData);
+            int blobLength = (int) blob.length();
+            String mimeType = "image/jpeg"; // Establece el tipo de contenido adecuado según el tipo de imagen
+
+            // Lee los bytes del blob en un arreglo de bytes
+            byte[] blobBytes = blob.getBytes(1, blobLength);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType(mimeType));
+            headers.setContentLength(blobLength);
+
+            // Devuelve los bytes del blob junto con los encabezados en una respuesta HTTP
+            return new ResponseEntity<>(blobBytes, headers, HttpStatus.OK);
+        } catch (SQLException e) {
+            // Manejar la excepción de SQLException
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    } else {
+        // Devolver un mensaje indicando que no se encontraron datos
+        String errorMessage = "No se encontraron datos";
+        byte[] errorBytes = errorMessage.getBytes();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_PLAIN);
+        headers.setContentLength(errorBytes.length);
+        return new ResponseEntity<>(errorBytes, headers, HttpStatus.NOT_FOUND);
+    }
 }
+
+
 }

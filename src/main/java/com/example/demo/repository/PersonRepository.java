@@ -25,9 +25,10 @@ public interface PersonRepository extends JpaRepository <Person, Long>{
 
     Person findPersonByEmail(String email);
     
-    @Modifying
+  @Modifying
     @Query("UPDATE Person SET perfil = :photo WHERE id = :personId")
     int uploadPhotoProfile(@Param("personId") Long id, @Param("photo") byte[] perfil);
+
     
     @Modifying
     @Query("UPDATE Person SET portada = :photo WHERE id = :personId")

@@ -25,9 +25,10 @@ public interface IPersonService {
     public void borrarPersona (Long id);
     public Person FindPersonById (Long id);
     public Long FindIdBySQL (String email, String password);
-   @Modifying
+    @Modifying
     @Query("UPDATE Person SET perfil = :photo WHERE id = :personId")
     int uploadPhotoProfile(@Param("personId") Long id, @Param("photo") byte[] perfil);
+
     @Modifying
      @Query("UPDATE Person SET portada = :photo WHERE id = :personId")
     int uploadNewPhotoBanner(@Param("personId") Long id, @Param("photo") byte[] portada);
